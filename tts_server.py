@@ -86,4 +86,5 @@ if __name__ == "__main__":
     print("✅ Flask 語音服務啟動中…")
     print(f"🌐 VOICE: {GOOGLE_VOICE_NAME}")
     print(f"☁️  S3 BUCKET: {AWS_BUCKET_NAME}")
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
