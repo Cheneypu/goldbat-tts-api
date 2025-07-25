@@ -1,0 +1,132 @@
+/* 🔹 基本樣式 */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fae6f4; /* 粉紫色背景 */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+}
+
+/* 🔹 主要容器 */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 90%;
+  height: 80vh;
+  position: relative;
+}
+
+/* 🔹 右上角的下拉選單 */
+.dropdown {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  text-align: right;
+}
+
+.dropdown-button {
+  background-color: #ddd;
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* 🔹 下拉選單內容 */
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 35px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px 0;
+  width: 150px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-menu button {
+  background: none;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dropdown-menu button:hover {
+  background: #f1f1f1;
+}
+
+/* 🔹 開始導覽按鈕 */
+.start-button {
+  background-color: #4b0082;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  font-size: 18px;
+  border-radius: 25px;
+  cursor: pointer;
+  margin-top: 20px;
+  white-space: nowrap;
+  min-width: 160px;
+  text-align: center;
+}
+
+.start-button:hover {
+  background-color: #6a0dad;
+}
+
+/* 🔹 字幕區域 */
+.subtitle-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  bottom: 50px;
+}
+
+/* 🔹 字幕顯示區塊 */
+.subtitle-display {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 25px;
+  min-width: 200px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 🔹 控制按鈕區 */
+.control-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.control-buttons button {
+  background-color: #4b0082;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.control-buttons button:hover {
+  background-color: #6a0dad;
+}
