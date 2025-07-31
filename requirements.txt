@@ -1,7 +1,7 @@
-Flask
-Flask-Cors
-python-dotenv
-boto3
-google-cloud-texttospeech
-google-generativeai
-rapidfuzz>=3.0.0
+Flask==2.3.3
+Flask-Cors==4.0.0
+python-dotenv==1.0.1
+boto3==1.34.81
+google-cloud-texttospeech==2.14.1
+google-generativeai==0.3.2
+rapidfuzz==3.6.1
