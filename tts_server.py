@@ -5,6 +5,7 @@ import os, tempfile, boto3, json
 import google.generativeai as genai
 from rapidfuzz import fuzz, process
 from google.cloud import texttospeech
+from random import choice
 
 # ✅ 載入 .env 環境變數
 load_dotenv()
@@ -40,26 +41,33 @@ with open("FAQ.json", "r", encoding="utf-8") as f:
 @app.route("/ask", methods=["POST"])
 def ask():
     user_question = request.json.get("question")
+    SIMILARITY_THRESHOLD = 65
+
+    all_pairs = []
+    for faq in FAQ_LIST:
+        questions = faq.get("q_variants", [])
+        answers = faq.get("a_variants", [])
+        for q in questions:
+            all_pairs.append((q, answers))
 
     matches = process.extract(
         user_question,
-        [faq["question"] for faq in FAQ_LIST],
+        [q for q, _ in all_pairs],
         scorer=fuzz.token_sort_ratio,
         limit=1
     )
 
-    best_match_question, similarity = matches[0]
-    best_match = next((faq for faq in FAQ_LIST if faq["question"] == best_match_question), None)
+    best_question, similarity = matches[0]
+    best_answer_set = next((a for q, a in all_pairs if q == best_question), None)
 
-    SIMILARITY_THRESHOLD = 65
-
-    if similarity >= SIMILARITY_THRESHOLD and best_match:
+    if similarity >= SIMILARITY_THRESHOLD and best_answer_set:
+        selected_answer = choice(best_answer_set)
         prompt = f"""
 你是一位親切的導覽員，負責講解黃金蝙蝠知識。
 請用自然口吻換句話說下面這段文字，避免機械感，但不要改變內容意義。
 
 原始資料：
-「{best_match['answer']}」
+「{selected_answer}」
 """
     else:
         prompt = f"""
@@ -72,9 +80,9 @@ def ask():
 
     try:
         response = model.generate_content(prompt)
-        return jsonify({"answer": response.text.strip(), "source": "AI"})
+        return jsonify({"answer": response.text.strip(), "source": "FAQ" if similarity >= SIMILARITY_THRESHOLD else "AI"})
     except Exception as e:
-        return jsonify({"answer": f"⚠️ 回答失敗：{str(e)}"})
+        return jsonify({"answer": f"⚠️ 回答失敗：{str(e)}"}), 500
 
 # ✅ 語音 API：Google TTS + S3 上傳
 @app.route("/api/tts", methods=["POST"])
