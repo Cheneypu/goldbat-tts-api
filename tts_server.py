@@ -57,7 +57,8 @@ def ask():
         limit=1
     )
 
-    best_question, similarity = matches[0]
+    best_question, similarity, _ = matches[0]
+
     best_answer_set = next((a for q, a in all_pairs if q == best_question), None)
 
     if similarity >= SIMILARITY_THRESHOLD and best_answer_set:
