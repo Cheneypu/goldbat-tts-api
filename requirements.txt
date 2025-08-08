@@ -3,5 +3,5 @@ Flask-Cors==4.0.0
 python-dotenv==1.0.1
 boto3==1.34.81
 google-cloud-texttospeech==2.14.1
-google-generativeai==1.0.0
+google-generativeai==0.8.5
 rapidfuzz==3.6.1
