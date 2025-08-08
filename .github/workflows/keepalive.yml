@@ -1,0 +1,22 @@
+name: Monthly Keep Alive Commit
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'  # 每月1日 00:00 UTC
+  workflow_dispatch:     # 也可以手動觸發
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Make dummy commit
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          date > .keepalive.txt
+          git add .keepalive.txt
+          git commit -m "🧯 Keep alive commit - $(date)"
+          git push
