@@ -13,7 +13,7 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv("GOOGLE_APPLICATION_CRE
 
 # ✅ Gemini 設定
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-model = genai.GenerativeModel("gemini-1.5-flash-latest")
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 # ✅ 語音預設設定（Google TTS）
 GOOGLE_LANGUAGE_CODE = os.getenv("GOOGLE_TTS_LANGUAGE_CODE", "cmn-TW")
@@ -142,4 +142,5 @@ if __name__ == "__main__":
     print("✅ Flask 語音+問答服務啟動中…")
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
+
 
