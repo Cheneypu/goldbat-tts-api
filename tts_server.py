@@ -12,8 +12,21 @@ load_dotenv()
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
 # ✅ Gemini 設定
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-model = genai.GenerativeModel("models/gemini-1.5-flash-latest")
+cred_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+if cred_path and not cred_path.startswith("/etc/secrets/"):
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = f"/etc/secrets/{cred_path}"
+else:
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = cred_path
+
+# ✅ 2. 強化 Gemini 設定與穩定性 (解決 404 模型問題)
+api_key = os.getenv("GOOGLE_API_KEY")
+if api_key:
+    genai.configure(api_key=api_key)
+    # 使用 gemini-1.5-flash 而非 latest，提高金鑰相容性
+    model = genai.GenerativeModel("gemini-1.5-flash") 
+    print(f"✅ Gemini API 已啟動，模型：gemini-1.5-flash")
+else:
+    print("❌ 錯誤：找不到 GOOGLE_API_KEY，AI 問答功能將失效")
 
 # ✅ 語音預設設定（Google TTS）
 GOOGLE_LANGUAGE_CODE = os.getenv("GOOGLE_TTS_LANGUAGE_CODE", "cmn-TW")
@@ -142,6 +155,7 @@ if __name__ == "__main__":
     print("✅ Flask 語音+問答服務啟動中…")
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
